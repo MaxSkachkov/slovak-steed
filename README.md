@@ -82,6 +82,7 @@ Contributors welcome. Read [`legal/IP_Protocol_v1.2.json`](legal/IP_Protocol_v1.
 before contributing. Clean room rule applies.
 
 ---
+Some components of this project are proprietary and not included in this repository.
 
 *Built in Slovakia. Built with AI.*  
 *Copyright (c) 2026 Maksym Skachkov*
