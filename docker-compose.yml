@@ -1,0 +1,110 @@
+# Slovak Steed — docker-compose.yml
+# Cyber-Sec-Agent: все секреты вынесены в .env
+# НЕ коммитить .env в репозиторий — только .env.example
+#
+# Запуск:
+#   cp .env.example .env
+#   nano .env          # заполнить реальными значениями
+#   docker compose up -d
+
+version: "3.9"
+
+services:
+
+  # ── Хранилище артефактов / весов моделей ──────────────────────
+  minio:
+    image: minio/minio:latest
+    container_name: slovak_steed_minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_PASSWORD}
+    volumes:
+      - minio_data:/data
+    ports:
+      - "9000:9000"   # API
+      - "9001:9001"   # Web console (только локально)
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ── База данных для MLflow и Guardian логов ────────────────────
+  postgres:
+    image: postgres:15-alpine
+    container_name: slovak_steed_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:5432:5432"   # только localhost, не наружу
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── MLflow — трекинг экспериментов ────────────────────────────
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:latest
+    container_name: slovak_steed_mlflow
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    environment:
+      MLFLOW_S3_ENDPOINT_URL: http://minio:9000
+      AWS_ACCESS_KEY_ID: ${MINIO_USER}
+      AWS_SECRET_ACCESS_KEY: ${MINIO_PASSWORD}
+    command: >
+      mlflow server
+      --backend-store-uri postgresql://${DB_USER}:${DB_PASSWORD}@postgres:5432/${DB_NAME}
+      --default-artifact-root s3://${MLFLOW_BUCKET}/artifacts
+      --host 0.0.0.0
+      --port 5000
+    ports:
+      - "127.0.0.1:5000:5000"   # только localhost
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ── Guardian v2 — мониторинг весов ────────────────────────────
+  guardian:
+    build:
+      context: .
+      dockerfile: Dockerfile.guardian
+    container_name: slovak_steed_guardian
+    restart: unless-stopped
+    environment:
+      GUARDIAN_WATCH_DIRS: /checkpoints,/models
+      GUARDIAN_STATE_FILE: /guardian_data/.guardian_state.json
+      GUARDIAN_INCIDENT_LOG: /guardian_data/guardian_incidents.json
+      GUARDIAN_LOG_FILE: /guardian_data/guardian.log
+      GUARDIAN_HMAC_SECRET: ${GUARDIAN_HMAC_SECRET}
+      GUARDIAN_INTERVAL: ${GUARDIAN_INTERVAL:-30}
+      GUARDIAN_ALERT_EMAIL: ${GUARDIAN_ALERT_EMAIL:-}
+      GUARDIAN_ALERT_PASSWORD: ${GUARDIAN_ALERT_PASSWORD:-}
+      GUARDIAN_ALERT_TO: ${GUARDIAN_ALERT_TO:-}
+    volumes:
+      - ./checkpoints:/checkpoints:ro    # read-only — только мониторинг
+      - ./models:/models:ro
+      - guardian_data:/guardian_data
+    command: ["python", "guardian_v2.py", "monitor"]
+
+volumes:
+  minio_data:
+    driver: local
+  postgres_data:
+    driver: local
+  guardian_data:
+    driver: local
