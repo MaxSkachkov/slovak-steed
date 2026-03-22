@@ -107,6 +107,9 @@
     "security review by Cyber-Sec-Agent",
     "CEO approval"
   ],
-  "copyright": "Copyright (c) 2026 Slovak Steed s.r.o.",
+  "copyright": "Copyright (c) 2026 Maksym Skachkov
+
+This project contains proprietary components and open-source elements.
+See LICENSE for details.",
   "spdx_license": "Apache-2.0"
 }
