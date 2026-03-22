@@ -1,0 +1,112 @@
+{
+  "project": "Slovak Steed",
+  "protocol_name": "IP & Open-Source Compliance Protocol v1.2",
+  "date": "2026-03-22",
+  "status": "approved",
+  "approved_by": "CEO",
+  "approved_date": "2026-03-22",
+  "changes_from_v1.1": "Added patent_vs_trade_secret rule, model_policy, fto_log — per Legal-Patent-Agent recommendations",
+  "core_principle": "Open-source is a library to read, not a warehouse to copy from.",
+  "layer_separation": {
+    "public_layer": {
+      "license": "Apache-2.0",
+      "contents": [
+        "simulation environment",
+        "CI/CD",
+        "tests",
+        "documentation",
+        "agent prompts",
+        "UI"
+      ]
+    },
+    "protected_layer": {
+      "license": "BUSL-1.1",
+      "contents": [
+        "reward_function.py",
+        "RL curriculum",
+        "domain randomization params",
+        "rider-weight-steering logic",
+        "trained model weights",
+        "master_kb.json"
+      ]
+    }
+  },
+  "patent_vs_trade_secret": {
+    "rule": "If functionality can be reverse-engineered from the product → patent it. If it cannot be reverse-engineered → keep as trade secret.",
+    "patent_candidates": [
+      "body-weight steering mechanism",
+      "modular 60-second swap interface",
+      "domain randomization training method"
+    ],
+    "trade_secret_candidates": [
+      "reward function parameters",
+      "training curriculum specifics",
+      "specific DR ranges"
+    ]
+  },
+  "model_policy": {
+    "trained_models": "treated as trade secrets",
+    "storage": "private repository only",
+    "sharing": "only under NDA",
+    "file_types": [
+      ".pth",
+      ".onnx",
+      ".pt",
+      ".safetensors"
+    ],
+    "versioning": "DVC with private remote storage"
+  },
+  "fto_log": {
+    "required": true,
+    "file": "DEPENDENCY_LOCK.json (fto_log section)",
+    "fields": [
+      "repo",
+      "checked_by",
+      "date",
+      "risk_level",
+      "decision",
+      "notes"
+    ]
+  },
+  "clean_room_rule": {
+    "description": "Developer who studied external code must NOT write our internal implementation.",
+    "status": "enforced — reward_function.py v2.0 confirmed clean",
+    "timestamp_evidence": "2026-03-21T22:27:43Z FreeTSA RFC 3161"
+  },
+  "license_policy": {
+    "allowed_for_integration": [
+      "MIT",
+      "BSD-2",
+      "BSD-3",
+      "Apache-2.0"
+    ],
+    "reference_only": [
+      "GPL-3.0",
+      "AGPL-3.0"
+    ],
+    "forbidden": [
+      "no_license",
+      "mixed_unverified",
+      "proprietary_without_clearance"
+    ],
+    "own_public_layer": "Apache-2.0",
+    "own_protected_layer": "BUSL-1.1"
+  },
+  "forbidden_actions": [
+    "copy any code from external repos into protected_layer",
+    "publish reward_function.py anywhere",
+    "assume open-source = freedom to operate",
+    "use unitree_guide code without FTO clearance",
+    "commit .env file with real credentials",
+    "share trained model weights without NDA"
+  ],
+  "pre_release_checklist": [
+    "license check on all dependencies",
+    "FTO check for any new technical component",
+    "trade secret audit — nothing from protected_layer in public commit",
+    "security review by Cyber-Sec-Agent",
+    "CEO approval"
+  ],
+  "copyright": "Copyright (c) 2026 Slovak Steed s.r.o.",
+  "spdx_license": "Apache-2.0"
+}
