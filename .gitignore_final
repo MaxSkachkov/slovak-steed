@@ -1,0 +1,48 @@
+# Slovak Steed — .gitignore
+# Copyright (c) 2026 Slovak Steed s.r.o.
+# SPDX-License-Identifier: Apache-2.0
+
+# ── SECRETS — НИКОГДА не коммитить ──────────────
+.env
+.env.local
+.env.production
+secrets.yaml
+*.key
+*.token
+
+# ── ВЕСА НЕЙРОСЕТИ — только приватный репо ──────
+*.pth
+*.onnx
+*.pt
+*.safetensors
+*.pkl
+checkpoints/
+models/
+outputs/
+
+# ── ЛОГИ ОБУЧЕНИЯ ────────────────────────────────
+mlruns/
+wandb/
+runs/
+guardian_data/
+*.guardian_state.json
+guardian_incidents.json
+
+# ── PYTHON ───────────────────────────────────────
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.venv/
+venv/
+mujoco_env/
+
+# ── СИСТЕМА ──────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.log
+
+# ── NODE (для UI компонентов) ─────────────────────
+node_modules/
+dist/
+build/
