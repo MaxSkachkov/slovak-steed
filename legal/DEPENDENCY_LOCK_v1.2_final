@@ -1,0 +1,137 @@
+{
+  "project": "Slovak Steed",
+  "file": "DEPENDENCY_LOCK.json",
+  "version": "1.2",
+  "last_updated": "2026-03-22",
+  "maintained_by": "Cyber-Sec-Agent",
+  "approved_by": "CEO",
+  "status": "FINAL — ready for GitHub commit",
+  "approved_dependencies": [
+    {
+      "name": "mujoco",
+      "type": "python_package",
+      "version": ">=3.0.0",
+      "license": "Apache-2.0",
+      "usage_type": "integration_allowed",
+      "approved_date": "2026-03-22"
+    },
+    {
+      "name": "stable-baselines3",
+      "type": "python_package",
+      "version": ">=2.3.0",
+      "license": "MIT",
+      "usage_type": "integration_allowed",
+      "approved_date": "2026-03-22"
+    },
+    {
+      "name": "mujoco_playground",
+      "org": "google-deepmind",
+      "url": "https://github.com/google-deepmind/mujoco_playground",
+      "commit_hash": "TO_BE_LOCKED_ON_FIRST_USE",
+      "license": "Apache-2.0",
+      "usage_type": "integration_allowed",
+      "approved_date": "2026-03-22"
+    },
+    {
+      "name": "legged_gym",
+      "org": "leggedrobotics",
+      "url": "https://github.com/leggedrobotics/legged_gym",
+      "commit_hash": "TO_BE_LOCKED_ON_FIRST_USE",
+      "license": "BSD-3",
+      "usage_type": "reference_only",
+      "restriction": "Architecture study only. Clean room rule applies. Do NOT copy reward function.",
+      "approved_date": "2026-03-22"
+    },
+    {
+      "name": "rl_sar",
+      "org": "fan-ziqi",
+      "url": "https://github.com/fan-ziqi/rl_sar",
+      "commit_hash": "TO_BE_LOCKED_ON_FIRST_USE",
+      "license": "Apache-2.0",
+      "verified_by": "Cyber-Sec-Agent",
+      "verified_date": "2026-03-22",
+      "usage_type": "reference_only",
+      "restriction": "Sim-to-real pipeline close to protected_layer. Reference only.",
+      "approved_date": "2026-03-22"
+    },
+    {
+      "name": "hyperdog_ros2",
+      "org": "NDHANA94",
+      "url": "https://github.com/NDHANA94/hyperdog_ros2",
+      "commit_hash": "TO_BE_LOCKED_ON_FIRST_USE",
+      "license": "MIT",
+      "verified_by": "Cyber-Sec-Agent",
+      "verified_date": "2026-03-22",
+      "usage_type": "reference_only",
+      "notes": "Academic origin (IEEE-SMC 2022). ROS2 architecture reference only.",
+      "approved_date": "2026-03-22"
+    },
+    {
+      "name": "SpotMicroESP32-Leika",
+      "org": "runeharlyk",
+      "url": "https://github.com/runeharlyk/SpotMicroESP32-Leika",
+      "commit_hash": "TO_BE_LOCKED_ON_FIRST_USE",
+      "license": "MIT",
+      "verified_by": "Cyber-Sec-Agent",
+      "verified_date": "2026-03-22",
+      "usage_type": "ui_reference_only",
+      "restriction": "Public layer only. No locomotion/control logic.",
+      "approved_date": "2026-03-22"
+    },
+    {
+      "name": "dfki-quad",
+      "org": "dfki-ric-underactuated-lab",
+      "url": "https://github.com/dfki-ric-underactuated-lab/dfki-quad",
+      "commit_hash": "TO_BE_LOCKED_ON_FIRST_USE",
+      "license": "BSD/MIT",
+      "usage_type": "reference_only",
+      "approved_date": "2026-03-22"
+    },
+    {
+      "name": "rex-gym",
+      "org": "nicrusso7",
+      "url": "https://github.com/nicrusso7/rex-gym",
+      "commit_hash": "TO_BE_LOCKED_ON_FIRST_USE",
+      "license": "MIT",
+      "usage_type": "experiments_ok",
+      "approved_date": "2026-03-22"
+    }
+  ],
+  "permanently_restricted": [
+    {
+      "name": "unitree_guide",
+      "org": "unitreerobotics",
+      "reason": "Mixed license + 328 active patents + US export control investigation (May 2025)",
+      "restriction": "VISUAL STUDY ONLY. No code integration without Legal-Patent-Agent FTO clearance.",
+      "additional_risk": "export_control_risk_EU_US",
+      "restriction_date": "2026-03-22"
+    },
+    {
+      "name": "quadruped-robot",
+      "org": "TopHillRobotics",
+      "reason": "No LICENSE file = all rights reserved by default. Unitree A1/DeepRobotics hardware dependency.",
+      "restriction": "DO NOT USE — permanently blocked",
+      "restriction_date": "2026-03-22"
+    }
+  ],
+  "fto_log": [
+    {
+      "repo": "unitree_guide",
+      "checked_by": "Legal-Patent-Agent",
+      "date": "2026-03-22",
+      "risk_level": "HIGH",
+      "decision": "permanently_restricted",
+      "notes": "328 patents, export control risk, mixed license"
+    }
+  ],
+  "procedure": {
+    "on_first_use": "Run: git rev-parse HEAD and update commit_hash field here",
+    "new_dependency": "Cyber-Sec-Agent verifies license → Legal-Patent-Agent FTO decision → CEO approval",
+    "violation": "Stop immediately. Report to CEO. Do not commit. Legal-Patent-Agent assesses damage."
+  },
+  "copyright": "Copyright (c) 2026 Maksym Skachkov
+
+This project contains proprietary components and open-source elements.
+See LICENSE for details.",
+  "spdx_license": "Apache-2.0"
+}
