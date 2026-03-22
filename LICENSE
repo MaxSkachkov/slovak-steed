@@ -1,21 +1,75 @@
-MIT License
+                                 Apache License
+                           Version 2.0, January 2004
+                        http://www.apache.org/licenses/
 
-Copyright (c) 2026 skachkovdesign
+Copyright (c) 2026 Maksym Skachkov
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+------------------------------------------------------------------
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+NOTICE:
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+This repository contains only PUBLIC components of the Slovak Steed project.
+
+Certain core technologies are NOT included in this repository and remain
+confidential and proprietary, including but not limited to:
+
+- reward_function.py and all control logic
+- reinforcement learning training pipelines
+- domain randomization parameters
+- rider-weight steering control system (IP-OPP-001)
+- adaptive locomotion algorithms (IP-OPP-002)
+- trained model weights and datasets
+- internal knowledge base (master_kb.json)
+- IP strategy documents
+
+These components are protected as:
+- trade secrets
+- patent-pending technologies
+
+Unauthorized use, reproduction, or reverse engineering of these
+protected components is strictly prohibited.
+
+------------------------------------------------------------------
+
+OPEN-SOURCE USAGE POLICY:
+
+This repository follows a strict clean-room development policy:
+
+- External open-source projects are used for reference only
+- Core algorithms are independently developed from scientific sources
+- No direct copying of control logic or training systems is allowed
+
+This ensures:
+- intellectual independence
+- patentability of the system
+- legal compliance with third-party licenses
+
+------------------------------------------------------------------
+
+LICENSE TERMS:
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this public repository except in compliance with the License.
+
+You may obtain a copy of the License at:
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under this repository is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+
+See the License for the specific language governing permissions and
+limitations under the License.
+
+------------------------------------------------------------------
+
+ADDITIONAL DISCLAIMER:
+
+This repository does NOT grant rights to any proprietary or
+patent-pending components of the Slovak Steed system.
+
+Use of this repository does not imply freedom to operate
+with respect to any underlying patents or patent applications.
+
+------------------------------------------------------------------
