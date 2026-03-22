@@ -1,0 +1,57 @@
+# ──────────────────────────────────────────────────────────────
+# Slovak Steed — Dockerfile.guardian
+# Запуск Guardian v2 (мониторинг весов нейросети)
+#
+# Сборка:  docker build -f Dockerfile.guardian -t slovak-steed-guardian .
+# Запуск:  см. docker-compose.yml (сервис guardian)
+#
+# Cyber-Sec-Agent | 22.03.2026
+# ──────────────────────────────────────────────────────────────
+
+FROM python:3.10-slim
+
+# Метаданные
+LABEL maintainer="Cyber-Sec-Agent"
+LABEL project="Slovak Steed"
+LABEL component="Guardian v2"
+LABEL version="2.0.0"
+
+# Не запускать от root
+RUN useradd --create-home --shell /bin/bash guardian
+
+WORKDIR /app
+
+# Системные зависимости — минимум
+# (guardian_v2.py использует только стандартную библиотеку)
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        curl \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Копируем только guardian — не весь проект
+COPY guardian_v2.py /app/guardian_v2.py
+
+# Права: guardian читает /checkpoints и /models (монтируются как :ro)
+# Пишет только в /guardian_data (именованный volume)
+RUN mkdir -p /guardian_data \
+    && chown -R guardian:guardian /app /guardian_data
+
+USER guardian
+
+# Healthcheck — Guardian пишет лог каждые N секунд
+HEALTHCHECK --interval=60s --timeout=10s --start-period=15s --retries=3 \
+    CMD test -f /guardian_data/guardian.log && \
+        test $(find /guardian_data/guardian.log -mmin -5 | wc -l) -gt 0 \
+        || exit 1
+
+# Переменные окружения — дефолты (реальные значения из .env)
+ENV GUARDIAN_WATCH_DIRS=/checkpoints,/models
+ENV GUARDIAN_STATE_FILE=/guardian_data/.guardian_state.json
+ENV GUARDIAN_INCIDENT_LOG=/guardian_data/guardian_incidents.json
+ENV GUARDIAN_LOG_FILE=/guardian_data/guardian.log
+ENV GUARDIAN_INTERVAL=30
+# GUARDIAN_HMAC_SECRET — ОБЯЗАТЕЛЬНО задать в .env, не здесь
+
+ENTRYPOINT ["python", "guardian_v2.py"]
+CMD ["monitor"]
